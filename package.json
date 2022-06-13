@@ -1,0 +1,21 @@
+{
+  "name": "jsaqa5",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "author": "ev.samotohina",
+  "license": "ISC",
+  "dependencies": {
+    "chai": "^4.3.6",
+    "cucumber": "^6.0.7",
+    "jest": "^27.3.1",
+    "jest-puppeteer": "^6.0.0",
+    "puppeteer": "^13.7.0"
+  },
+  "keywords": [
+    "puppeteer"
+  ],
+  "description": ""
+}

@@ -16,7 +16,7 @@ afterEach(() => {
 describe("Ticket buy tests", () => {
 
   test.only("Today's session", async () => {
-    await chooseTicket(page, 'div ul li a', "div div span", 99);
+    await chooseTicket(page, 'div ul li a', "div div span", number(97));
     await clickButton(page, 'button');
     await page.waitForSelector('.ticket__info-wrapper');
     await clickButton(page, 'button');

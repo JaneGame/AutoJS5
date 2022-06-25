@@ -1,6 +1,8 @@
 const puppeteer = require("puppeteer");
-const { clickButton, chooseTicket } = require("./lib/commands");
-const { number } = require("./lib/utils");
+const { clickButton, chooseSession, chooseTicket } = require("./lib/commands");
+const { numberPlace } = require("./lib/utils");
+const session = '.movie-seances__time';
+const place = ".buying-scheme__chair";
 let page;
 
 
@@ -15,8 +17,8 @@ afterEach(() => {
 
 describe("Ticket buy tests", () => {
 
-  test.only("Today's session", async () => {
-    await chooseTicket(page, 'div ul li a', "div div span", number(97));
+  test.skip("Today's session", async () => {
+    await chooseTicket(page, '.movie-seances__time', "div div span", 97);
     await clickButton(page, 'button');
     await page.waitForSelector('.ticket__info-wrapper');
     await clickButton(page, 'button');
@@ -25,10 +27,11 @@ describe("Ticket buy tests", () => {
     expect(ticket).toContain('Электронный билет');
   });
 
-  test("Next day's session", async () => {
-    const day = await page.$$('nav a');
+  test.only("Next day's session", async () => {
+    const day = await page.$$('.page-nav__day');
     await day[1].click();
-    await chooseTicket(page, 'div ul li a', "div div span", 19);
+    await chooseSession(page, session, 0);
+    await chooseTicket(page, place, numberPlace(99));
     await clickButton(page, 'button');
     await page.waitForSelector('.ticket__info-wrapper');
     await clickButton(page, 'button');
@@ -38,7 +41,10 @@ describe("Ticket buy tests", () => {
   });
 
   test("No tickets session", async () => {
-    await chooseTicket(page, 'div ul li a', "div div span", 19);
+    const day = await page.$$('.page-nav__day');
+    await day[1].click();
+    await chooseSession(page, '.movie-seances__time', 0);
+    await chooseTicket(page, ".buying-scheme__chair", 22);
     const button = await page.$eval("button", element => element.getAttribute('disabled'));
     expect(button).toEqual("true");
   });

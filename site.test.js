@@ -27,11 +27,11 @@ describe("Ticket buy tests", () => {
     expect(ticket).toContain('Электронный билет');
   });
 
-  test.only("Next day's session", async () => {
+  test("Next day's session", async () => {
     const day = await page.$$('.page-nav__day');
     await day[1].click();
-    await chooseSession(page, session, 0);
-    await chooseTicket(page, place, numberPlace(99));
+    await chooseSession(page, session, 1);
+    await chooseTicket(page, place, 2);
     await clickButton(page, 'button');
     await page.waitForSelector('.ticket__info-wrapper');
     await clickButton(page, 'button');
@@ -43,8 +43,8 @@ describe("Ticket buy tests", () => {
   test("No tickets session", async () => {
     const day = await page.$$('.page-nav__day');
     await day[1].click();
-    await chooseSession(page, '.movie-seances__time', 0);
-    await chooseTicket(page, ".buying-scheme__chair", 22);
+    await chooseSession(page, '.movie-seances__time', 1);
+    await chooseTicket(page, ".buying-scheme__chair", 1);
     const button = await page.$eval("button", element => element.getAttribute('disabled'));
     expect(button).toEqual("true");
   });

@@ -40,7 +40,7 @@ describe("Ticket buy tests", () => {
     expect(ticket).toContain('Электронный билет');
   });
 
-  test("No tickets session", async () => {
+  test.skip("No tickets session", async () => {
     const day = await page.$$('.page-nav__day');
     await day[1].click();
     await chooseSession(page, '.movie-seances__time', 1);

@@ -17,8 +17,9 @@ afterEach(() => {
 
 describe("Ticket buy tests", () => {
 
-  test.skip("Today's session", async () => {
-    await chooseTicket(page, '.movie-seances__time', "div div span", 97);
+  test("Today's session", async () => {
+    await chooseSession(page, session, 1);
+    await chooseTicket(page, place, await numberPlace(page));
     await clickButton(page, 'button');
     await page.waitForSelector('.ticket__info-wrapper');
     await clickButton(page, 'button');
@@ -30,8 +31,8 @@ describe("Ticket buy tests", () => {
   test("Next day's session", async () => {
     const day = await page.$$('.page-nav__day');
     await day[1].click();
-    await chooseSession(page, session, 1);
-    await chooseTicket(page, place, 2);
+    await chooseSession(page, session, 2);
+    await chooseTicket(page, place, await numberPlace(page));
     await clickButton(page, 'button');
     await page.waitForSelector('.ticket__info-wrapper');
     await clickButton(page, 'button');
@@ -43,8 +44,8 @@ describe("Ticket buy tests", () => {
   test("No tickets session", async () => {
     const day = await page.$$('.page-nav__day');
     await day[1].click();
-    await chooseSession(page, '.movie-seances__time', 1);
-    await chooseTicket(page, ".buying-scheme__chair", 1);
+    await chooseSession(page, session, 1);
+    await chooseTicket(page, place, 1);
     const button = await page.$eval("button", element => element.getAttribute('disabled'));
     expect(button).toEqual("true");
   });

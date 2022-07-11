@@ -5,7 +5,7 @@ const { numberPlace } = require("../../lib/utils");
 const session = '.movie-seances__time';
 const place = ".buying-scheme__chair";
 const {Given, When, Then} = require('@cucumber/cucumber');
-const expect=require('chai');
+const {expect} = require('chai');
 let page;
 
 
@@ -26,16 +26,30 @@ Given("user is on site page", async() =>{
 await this.page.goto("http://qamid.tmweb.ru/client/index.php");
 })
 
-When ("user search by ticket tomorrow", async() => {
+When ("user selects day 1", async() => {
     const day = await this.page.$$('.page-nav__day');
     await day[1].click();
-    await chooseSession(this.page, session, 1);
-    await chooseTicket(this.page, place, 2);
-    await chooseTicket(this.page, '.movie-seances__time', "div div span", 97);
+})
+
+When ('user chooses session {number}', async(number) => {
+
+   return await chooseSession(this.page, session, number);
+
+})
+
+When ("user chooses seat {number2}", async(number2) => {
+
+    return await chooseTicket(this.page, place, number2);
+
+})
+
+When ("user clicks submit button", async() => {
+
     await clickButton(this.page, 'button');
     await this.page.waitForSelector('.ticket__info-wrapper');
-    await clickButton(page, 'button');
+    await clickButton(this.page, 'button');
 })
+
 
 Then ("user sees the {string}", async(string) => {
     await this.page.waitForSelector('h2');

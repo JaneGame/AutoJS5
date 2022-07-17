@@ -3,7 +3,7 @@ const puppeteer = require("puppeteer");
 const { clickButton, chooseSession, chooseTicket } = require("../../lib/commands");
 const { numberPlace } = require("../../lib/utils");
 const session = '.movie-seances__time';
-const place = ".buying-scheme__chair";
+const place = '.buying-scheme__chair';
 const {Given, When, Then} = require('@cucumber/cucumber');
 const {expect} = require('chai');
 let page;
@@ -31,15 +31,15 @@ When ("user selects day 1", async() => {
     await day[1].click();
 })
 
-When ('user chooses session {number}', async(number) => {
+When ('user chooses session {int}', async(int)  => {
 
-   return await chooseSession(this.page, session, number);
+    return await chooseSession(this.page, session, int);
 
 })
 
-When ("user chooses seat {number2}", async(number2) => {
+When ("user chooses seat {int}", async(int) => {
 
-    return await chooseTicket(this.page, place, number2);
+    return await chooseTicket(this.page, place, int);
 
 })
 
@@ -54,5 +54,10 @@ When ("user clicks submit button", async() => {
 Then ("user sees the {string}", async(string) => {
     await this.page.waitForSelector('h2');
     const ticket = await this.page.$eval('h2', element => element.textContent);
-    expect(ticket).toContain(string);
+    expect(ticket).contain(string);
+})
+
+Then ("ticket not buy", async() => {
+    const button = await this.page.$eval("button", element => element.getAttribute('disabled'));
+    expect(button).equal("true");
 })
